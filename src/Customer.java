@@ -39,9 +39,6 @@ public class Customer {
         return result;
     }
 
-    // ======================================
-    // NOVO MÉTODO DO COMMIT 13
-    // ======================================
     private int getFrequentRenterPoints(Rental each) {
         if (each.getMovie().getPriceCode() == Movie.NEW_RELEASE &&
                 each.getDaysRented() > 1) {
@@ -60,13 +57,13 @@ public class Customer {
         while (rentals.hasMoreElements()) {
             Rental each = (Rental) rentals.nextElement();
 
-            double chargeResult = getCharge(each);
-
-            // uso do novo método extraído
+            // soma direto sem variável temporária
             frequentRenterPoints += getFrequentRenterPoints(each);
 
-            result += "\t" + each.getMovie().getTitle() + "\t" + chargeResult + "\n";
-            totalAmount += chargeResult;
+            result += "\t" + each.getMovie().getTitle() + "\t" +
+                    getCharge(each) + "\n";
+
+            totalAmount += getCharge(each);
         }
 
         result += "Amount owed is " + totalAmount + "\n";
