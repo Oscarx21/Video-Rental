@@ -16,6 +16,10 @@ public class Rental {
         return daysRented;
     }
 
+    // ===========================
+    // ALTERAÇÕES DO COMMIT 7
+    // ===========================
+
     public double getCharge() {
         return movie.getCharge(daysRented);
     }

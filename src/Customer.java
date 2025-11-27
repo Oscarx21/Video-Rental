@@ -65,7 +65,7 @@ public class Customer {
     }
 
     // ==============================
-    // Métodos extraídos no Commit 6
+    // Métodos auxiliares (commit 6)
     // ==============================
 
     private double getTotalCharge() {
