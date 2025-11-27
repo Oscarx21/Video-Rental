@@ -58,10 +58,6 @@ public class Customer {
         return result;
     }
 
-    // ===========================================
-    // NOVO MÉTODO DO COMMIT 16
-    // Soma de todos os pontos de locação
-    // ===========================================
     private int getTotalFrequentRenterPoints() {
         int result = 0;
 
@@ -87,6 +83,28 @@ public class Customer {
 
         result += "Amount owed is " + getTotalCharge() + "\n";
         result += "You earned " + getTotalFrequentRenterPoints() + " frequent renter points";
+
+        return result;
+    }
+
+    // ===========================================
+    // NOVO MÉTODO DO COMMIT 17 — htmlStatement()
+    // ===========================================
+    public String htmlStatement() {
+        Enumeration rentals = _rentals.elements();
+        String result = "<h1>Rental Record for <em>" + getName() + "</em></h1><p>\n";
+
+        while (rentals.hasMoreElements()) {
+            Rental each = (Rental) rentals.nextElement();
+
+            result += each.getMovie().getTitle() + ": " +
+                    String.valueOf(getCharge(each)) + "<br>\n";
+        }
+
+        result += "<p>You owe <em>" + getTotalCharge() + "</em><p>\n";
+        result += "On this rental you earned <em>" +
+                getTotalFrequentRenterPoints() +
+                "</em> frequent renter points<p>";
 
         return result;
     }
