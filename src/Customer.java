@@ -18,10 +18,6 @@ public class Customer {
         return name;
     }
 
-    // -----------------------------
-    // MÉTODOS AUXILIARES REORGANIZADOS
-    // -----------------------------
-
     private double getTotalCharge() {
         double result = 0;
         for (Rental rental : rentals) {
@@ -37,10 +33,6 @@ public class Customer {
         }
         return result;
     }
-
-    // -----------------------------
-    // MÉTODOS DE EXTRATO
-    // -----------------------------
 
     public String statement() {
 
