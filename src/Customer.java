@@ -28,16 +28,14 @@ public class Customer {
 
         for (Rental rental : rentals) {
 
-            double thisAmount = rental.getMovie().getCharge(rental.getDaysRented());
-            frequentRenterPoints += rental.getMovie().getFrequentRenterPoints(rental.getDaysRented());
+            totalAmount += rental.getCharge();
+            frequentRenterPoints += rental.getFrequentRenterPoints();
 
             result.append("\t")
                     .append(rental.getMovie().getTitle())
                     .append("\t")
-                    .append(thisAmount)
+                    .append(rental.getCharge())
                     .append("\n");
-
-            totalAmount += thisAmount;
         }
 
         result.append("Amount owed is ").append(totalAmount).append("\n");
