@@ -18,6 +18,33 @@ public class Customer {
         return _name;
     }
 
+    // ============================
+    // NOVO MÉTODO EXTRAÍDO (Commit 2)
+    // ============================
+    private double amountFor(Rental each) {
+        double thisAmount = 0;
+
+        switch (each.getMovie().getPriceCode()) {
+            case Movie.REGULAR:
+                thisAmount += 2;
+                if (each.getDaysRented() > 2)
+                    thisAmount += (each.getDaysRented() - 2) * 1.5;
+                break;
+
+            case Movie.NEW_RELEASE:
+                thisAmount += each.getDaysRented() * 3;
+                break;
+
+            case Movie.CHILDRENS:
+                thisAmount += 1.5;
+                if (each.getDaysRented() > 3)
+                    thisAmount += (each.getDaysRented() - 3) * 1.5;
+                break;
+        }
+
+        return thisAmount;
+    }
+
     public String statement() {
         double totalAmount = 0;
         int frequentRenterPoints = 0;
@@ -26,44 +53,23 @@ public class Customer {
         String result = "Rental Record for " + getName() + "\n";
 
         while (rentals.hasMoreElements()) {
-            double thisAmount = 0;
             Rental each = (Rental) rentals.nextElement();
 
-            // cálculo baseado no tipo de filme
-            switch (each.getMovie().getPriceCode()) {
-                case Movie.REGULAR:
-                    thisAmount += 2;
-                    if (each.getDaysRented() > 2)
-                        thisAmount += (each.getDaysRented() - 2) * 1.5;
-                    break;
+            // uso do NOVO MÉTODO
+            double thisAmount = amountFor(each);
 
-                case Movie.NEW_RELEASE:
-                    thisAmount += each.getDaysRented() * 3;
-                    break;
-
-                case Movie.CHILDRENS:
-                    thisAmount += 1.5;
-                    if (each.getDaysRented() > 3)
-                        thisAmount += (each.getDaysRented() - 3) * 1.5;
-                    break;
-            }
-
-            // adicionar pontos
             frequentRenterPoints++;
 
-            // bônus para lançamento novo alugado por mais de um dia
             if (each.getMovie().getPriceCode() == Movie.NEW_RELEASE &&
                     each.getDaysRented() > 1) {
                 frequentRenterPoints++;
             }
 
-            // mostrar valores desta locação
             result += "\t" + each.getMovie().getTitle() + "\t" + thisAmount + "\n";
 
             totalAmount += thisAmount;
         }
 
-        // rodapé
         result += "Amount owed is " + totalAmount + "\n";
         result += "You earned " + frequentRenterPoints + " frequent renter points";
 
