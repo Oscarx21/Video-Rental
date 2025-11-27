@@ -20,16 +20,9 @@ public class Customer {
 
     public String statement() {
 
-        double totalAmount = 0;
-        int frequentRenterPoints = 0;
-
         StringBuilder result = new StringBuilder("Rental Record for " + getName() + "\n");
 
         for (Rental rental : rentals) {
-
-            totalAmount += rental.getCharge();
-            frequentRenterPoints += rental.getFrequentRenterPoints();
-
             result.append("\t")
                     .append(rental.getMovie().getTitle())
                     .append("\t")
@@ -37,23 +30,22 @@ public class Customer {
                     .append("\n");
         }
 
-        result.append("Amount owed is ").append(totalAmount).append("\n");
-        result.append("You earned ").append(frequentRenterPoints).append(" frequent renter points");
+        result.append("Amount owed is ")
+                .append(getTotalCharge())
+                .append("\n");
+
+        result.append("You earned ")
+                .append(getTotalFrequentRenterPoints())
+                .append(" frequent renter points");
 
         return result.toString();
     }
 
     public String htmlStatement() {
 
-        double totalAmount = 0;
-        int frequentRenterPoints = 0;
-
         StringBuilder result = new StringBuilder("<h1>Rental Record for <em>" + getName() + "</em></h1><p>\n");
 
         for (Rental rental : rentals) {
-
-            totalAmount += rental.getCharge();
-            frequentRenterPoints += rental.getFrequentRenterPoints();
 
             result.append(rental.getMovie().getTitle())
                     .append(": ")
@@ -62,13 +54,33 @@ public class Customer {
         }
 
         result.append("<p>You owe <em>")
-                .append(totalAmount)
+                .append(getTotalCharge())
                 .append("</em><p>\n");
 
         result.append("On this rental you earned <em>")
-                .append(frequentRenterPoints)
+                .append(getTotalFrequentRenterPoints())
                 .append("</em> frequent renter points<p>");
 
         return result.toString();
+    }
+
+    // ==============================
+    // Métodos extraídos no Commit 6
+    // ==============================
+
+    private double getTotalCharge() {
+        double total = 0;
+        for (Rental r : rentals) {
+            total += r.getCharge();
+        }
+        return total;
+    }
+
+    private int getTotalFrequentRenterPoints() {
+        int points = 0;
+        for (Rental r : rentals) {
+            points += r.getFrequentRenterPoints();
+        }
+        return points;
     }
 }
