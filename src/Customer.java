@@ -18,6 +18,30 @@ public class Customer {
         return name;
     }
 
+    // -----------------------------
+    // MÉTODOS AUXILIARES REORGANIZADOS
+    // -----------------------------
+
+    private double getTotalCharge() {
+        double result = 0;
+        for (Rental rental : rentals) {
+            result += rental.getCharge();
+        }
+        return result;
+    }
+
+    private int getTotalFrequentRenterPoints() {
+        int result = 0;
+        for (Rental rental : rentals) {
+            result += rental.getFrequentRenterPoints();
+        }
+        return result;
+    }
+
+    // -----------------------------
+    // MÉTODOS DE EXTRATO
+    // -----------------------------
+
     public String statement() {
 
         StringBuilder result = new StringBuilder("Rental Record for " + getName() + "\n");
@@ -30,13 +54,8 @@ public class Customer {
                     .append("\n");
         }
 
-        result.append("Amount owed is ")
-                .append(getTotalCharge())
-                .append("\n");
-
-        result.append("You earned ")
-                .append(getTotalFrequentRenterPoints())
-                .append(" frequent renter points");
+        result.append("Amount owed is ").append(getTotalCharge()).append("\n");
+        result.append("You earned ").append(getTotalFrequentRenterPoints()).append(" frequent renter points");
 
         return result.toString();
     }
@@ -46,7 +65,6 @@ public class Customer {
         StringBuilder result = new StringBuilder("<h1>Rental Record for <em>" + getName() + "</em></h1><p>\n");
 
         for (Rental rental : rentals) {
-
             result.append(rental.getMovie().getTitle())
                     .append(": ")
                     .append(rental.getCharge())
@@ -62,25 +80,5 @@ public class Customer {
                 .append("</em> frequent renter points<p>");
 
         return result.toString();
-    }
-
-    // ==============================
-    // Métodos auxiliares (commit 6)
-    // ==============================
-
-    private double getTotalCharge() {
-        double total = 0;
-        for (Rental r : rentals) {
-            total += r.getCharge();
-        }
-        return total;
-    }
-
-    private int getTotalFrequentRenterPoints() {
-        int points = 0;
-        for (Rental r : rentals) {
-            points += r.getFrequentRenterPoints();
-        }
-        return points;
     }
 }
