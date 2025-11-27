@@ -39,6 +39,17 @@ public class Customer {
         return result;
     }
 
+    // ======================================
+    // NOVO MÉTODO DO COMMIT 13
+    // ======================================
+    private int getFrequentRenterPoints(Rental each) {
+        if (each.getMovie().getPriceCode() == Movie.NEW_RELEASE &&
+                each.getDaysRented() > 1) {
+            return 2;
+        }
+        return 1;
+    }
+
     public String statement() {
         double totalAmount = 0;
         int frequentRenterPoints = 0;
@@ -49,17 +60,10 @@ public class Customer {
         while (rentals.hasMoreElements()) {
             Rental each = (Rental) rentals.nextElement();
 
-            // ======================
-            // RENOMEAÇÃO DO COMMIT 12
-            // ======================
             double chargeResult = getCharge(each);
 
-            frequentRenterPoints++;
-
-            if (each.getMovie().getPriceCode() == Movie.NEW_RELEASE &&
-                    each.getDaysRented() > 1) {
-                frequentRenterPoints++;
-            }
+            // uso do novo método extraído
+            frequentRenterPoints += getFrequentRenterPoints(each);
 
             result += "\t" + each.getMovie().getTitle() + "\t" + chargeResult + "\n";
             totalAmount += chargeResult;
