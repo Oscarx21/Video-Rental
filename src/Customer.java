@@ -1,3 +1,6 @@
+import java.util.Enumeration;
+import java.util.Vector;
+
 public class Customer {
 
     private String _name;
@@ -15,36 +18,11 @@ public class Customer {
         return _name;
     }
 
-    private double getCharge(Rental each) {
-        double result = 0;
-
-        switch (each.getMovie().getPriceCode()) {
-            case Movie.REGULAR:
-                result += 2;
-                if (each.getDaysRented() > 2)
-                    result += (each.getDaysRented() - 2) * 1.5;
-                break;
-
-            case Movie.NEW_RELEASE:
-                result += each.getDaysRented() * 3;
-                break;
-
-            case Movie.CHILDRENS:
-                result += 1.5;
-                if (each.getDaysRented() > 3)
-                    result += (each.getDaysRented() - 3) * 1.5;
-                break;
-        }
-        return result;
-    }
-
-    private int getFrequentRenterPoints(Rental each) {
-        if (each.getMovie().getPriceCode() == Movie.NEW_RELEASE &&
-                each.getDaysRented() > 1) {
-            return 2;
-        }
-        return 1;
-    }
+    // ===========================================
+    // REMOVIDOS (agora estão em Rental):
+    //  - getCharge(Rental)
+    //  - getFrequentRenterPoints(Rental)
+    // ===========================================
 
     private double getTotalCharge() {
         double result = 0;
@@ -52,7 +30,7 @@ public class Customer {
         Enumeration rentals = _rentals.elements();
         while (rentals.hasMoreElements()) {
             Rental each = (Rental) rentals.nextElement();
-            result += getCharge(each);
+            result += each.getCharge(); // ← agora via Rental
         }
 
         return result;
@@ -64,7 +42,7 @@ public class Customer {
         Enumeration rentals = _rentals.elements();
         while (rentals.hasMoreElements()) {
             Rental each = (Rental) rentals.nextElement();
-            result += getFrequentRenterPoints(each);
+            result += each.getFrequentRenterPoints(); // ← agora via Rental
         }
 
         return result;
@@ -78,18 +56,16 @@ public class Customer {
             Rental each = (Rental) rentals.nextElement();
 
             result += "\t" + each.getMovie().getTitle() + "\t" +
-                    getCharge(each) + "\n";
+                    each.getCharge() + "\n"; // ← atualizado
         }
 
         result += "Amount owed is " + getTotalCharge() + "\n";
-        result += "You earned " + getTotalFrequentRenterPoints() + " frequent renter points";
+        result += "You earned " + getTotalFrequentRenterPoints() +
+                " frequent renter points";
 
         return result;
     }
 
-    // ===========================================
-    // NOVO MÉTODO DO COMMIT 17 — htmlStatement()
-    // ===========================================
     public String htmlStatement() {
         Enumeration rentals = _rentals.elements();
         String result = "<h1>Rental Record for <em>" + getName() + "</em></h1><p>\n";
@@ -98,7 +74,7 @@ public class Customer {
             Rental each = (Rental) rentals.nextElement();
 
             result += each.getMovie().getTitle() + ": " +
-                    String.valueOf(getCharge(each)) + "<br>\n";
+                    each.getCharge() + "<br>\n"; // ← atualizado
         }
 
         result += "<p>You owe <em>" + getTotalCharge() + "</em><p>\n";
