@@ -1,3 +1,4 @@
+
 public class Rental {
 
     private Movie movie;
@@ -15,10 +16,6 @@ public class Rental {
     public int getDaysRented() {
         return daysRented;
     }
-
-    // ===========================
-    // ALTERAÇÕES DO COMMIT 7
-    // ===========================
 
     public double getCharge() {
         return movie.getCharge(daysRented);
