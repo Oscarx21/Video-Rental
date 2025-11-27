@@ -46,10 +46,6 @@ public class Customer {
         return 1;
     }
 
-    // =======================================
-    // NOVO MÉTODO DO COMMIT 15
-    // Soma de todos os valores das locações
-    // =======================================
     private double getTotalCharge() {
         double result = 0;
 
@@ -62,24 +58,35 @@ public class Customer {
         return result;
     }
 
-    public String statement() {
-        int frequentRenterPoints = 0;
+    // ===========================================
+    // NOVO MÉTODO DO COMMIT 16
+    // Soma de todos os pontos de locação
+    // ===========================================
+    private int getTotalFrequentRenterPoints() {
+        int result = 0;
 
+        Enumeration rentals = _rentals.elements();
+        while (rentals.hasMoreElements()) {
+            Rental each = (Rental) rentals.nextElement();
+            result += getFrequentRenterPoints(each);
+        }
+
+        return result;
+    }
+
+    public String statement() {
         Enumeration rentals = _rentals.elements();
         String result = "Rental Record for " + getName() + "\n";
 
         while (rentals.hasMoreElements()) {
             Rental each = (Rental) rentals.nextElement();
 
-            frequentRenterPoints += getFrequentRenterPoints(each);
-
             result += "\t" + each.getMovie().getTitle() + "\t" +
                     getCharge(each) + "\n";
         }
 
-        // substituído: totalAmount
         result += "Amount owed is " + getTotalCharge() + "\n";
-        result += "You earned " + frequentRenterPoints + " frequent renter points";
+        result += "You earned " + getTotalFrequentRenterPoints() + " frequent renter points";
 
         return result;
     }
